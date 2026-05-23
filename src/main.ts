@@ -9,20 +9,19 @@ async function bootstrap() {
     transport: Transport.KAFKA,
     options: {
       client: {
-        clientId: 'service-b',
+        clientId: 'consumer-service',
         brokers: ['kafka.kafka.svc.cluster.local:9092'],
       },
       consumer: {
-        groupId: 'service-b-group',
+        groupId: 'consumer-group',
       },
     },
   });
 
   await app.startAllMicroservices();
+  await app.listen(3001, '0.0.0.0');
 
-  await app.listen(process.env.PORT ?? 3002, '0.0.0.0');
-
-  console.log(`HTTP server running on port ${process.env.PORT ?? 3002}`);
+  console.log('Consumer running on port 3001');
   console.log('Kafka consumer is listening...');
 }
 
